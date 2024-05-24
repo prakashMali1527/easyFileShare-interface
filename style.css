@@ -31,6 +31,13 @@ body, .drop-zone{
     border-radius: 10px;
 }
 
+/* dragover effect on drop zone */
+.dragged.drop-zone{
+    transition: all .2s ease;
+    background-color: var(--main-bg-color);
+    border-color: #2196f3;
+}
+
 .icon-container{
     width: 75px;
     height: 100px;
@@ -40,8 +47,28 @@ body, .drop-zone{
 .icon-container img{
     width: 75px;
     position: absolute;
+    transition: transform .25s ease-in-out;
 }
 
 .icon-container .center{
     z-index: 2;
+}
+
+.icon-container .left, .icon-container .right{
+    transform-origin: bottom;
+    filter: grayscale(.4);
+    transform: scale(.9);
+}
+
+/* drag/drop transform effect on file icons */
+.dragged .icon-container .left{
+    transform: rotate(-10deg) translateX(-20px) scale(.9);
+}
+
+.dragged .icon-container .right{
+    transform: rotate(10deg) translateX(20px) scale(.9);
+}
+
+.dragged .icon-container .center{
+    transform: translateY(-5px);
 }

@@ -72,3 +72,12 @@ body, .drop-zone{
 .dragged .icon-container .center{
     transform: translateY(-5px);
 }
+
+#file-input{
+    display: none;
+}
+
+.browse-btn{
+    color: #4e0adf;
+    cursor: pointer;
+}

@@ -2,15 +2,24 @@ const dropZone = document.querySelector('.drop-zone');
 const fileInput = document.querySelector('#file-input');
 const browseBtn = document.querySelector('.browse-btn');
 
+const progressContainer = document.querySelector('.progress-container');
+const bgProgress = document.querySelector('.bg-progress');
+const progressBar = document.querySelector('.progress-bar');
+const percentDiv = document.querySelector('#percent');
+
+
+// SERVER port
+const PORT = 3000;
 // change host and upload url
 // const host = 'https://innshare.herokuapp.com/';
-const host = '';
-const uploadUrl = `${host}api/files`;
+const host = `http://localhost:${PORT}/`;
+const uploadURL = `${host}api/files`;
 
 // transform icon on dragging or droping
 dropZone.addEventListener("dragover", (e) => {
     e.preventDefault();
-    dropZone.classList.add('dragged');
+    if(!dropZone.classList.contains('dragged'))
+        dropZone.classList.add('dragged');
 })
 
 dropZone.addEventListener('dragleave', () => {
@@ -27,32 +36,43 @@ dropZone.addEventListener('drop', (e) => {
     }
 });
 
-// fileInput.addEventListener('change',()=>{
-//     uploadFile();
-// });
-
 browseBtn.addEventListener('click', (e) => {
     fileInput.click();
 })
 
 const uploadFile = () => {
 
+    progressContainer.style.display = 'block';
     const file = fileInput.files[0];
+    if(!file){
+        console.log('Cannot upload empty file');
+        return;
+    }
 
     const formData = new FormData();
-    formData.append('myfile',file);
+    formData.append("myfile", file);
 
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
-        console.log(xhr.readyState);
         if(xhr.readyState == XMLHttpRequest.DONE){
-            console.log('package received');
             console.log(xhr.response);
         }
     }
 
-    xhr.open('POST', uploadUrl);
+    xhr.upload.onprogress = updateProgress;
+
+    xhr.open('POST', uploadURL);
     xhr.send(formData);
+
 }
 
 fileInput.addEventListener('change', uploadFile);
+
+// monitor progress bar 
+const updateProgress = (e) => {
+    const percent = Math.round((e.loaded/e.total) * 100);
+    console.log(percent);
+    bgProgress.style = `width:${percent}%`;
+    percentDiv.innerText = percent;
+    progressBar.style.transform = `scaleX(${percent/100})`;
+}

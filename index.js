@@ -11,12 +11,15 @@ const fileURLInput = document.getElementById('fileURL');
 const sharingContainer = document.querySelector('.sharing-container');
 const clipBtn = document.querySelector('#clip-btn');
 
+const emailForm = document.querySelector('#email-form');
+
 // SERVER port
 const PORT = 8000;
 // change host and upload url
 // const host = 'https://innshare.herokuapp.com/';
 const host = `http://localhost:${PORT}/`;
 const uploadURL = `${host}api/files`;
+const emailURL = `${host}api/files/send-email`;
 
 // transform icon on dragging or droping
 dropZone.addEventListener("dragover", (e) => {
@@ -69,7 +72,7 @@ const uploadFile = () => {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
         if (xhr.readyState == XMLHttpRequest.DONE) {
-            showLink(JSON.parse(xhr.response));
+            onUploadSuccess(JSON.parse(xhr.response));
         }
     }
 
@@ -91,9 +94,44 @@ const updateProgress = (e) => {
     progressBar.style.transform = `scaleX(${percent / 100})`;
 }
 
-const showLink = ({ file: url }) => {
+const onUploadSuccess = ({ file: url }) => {
     console.log(url);
+
+    // empty file once send successfully
+    fileInput.value = "";
+
+    // set email btn able to send mail again 
+    emailForm[2].removeAttribute('disabled');
+
     progressContainer.style.display = 'none';
     fileURLInput.value = url;
     sharingContainer.style.display = 'block';
 }
+
+emailForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+
+    const url = fileURLInput.value;
+    const formData = {
+        uuid: url.split('/').slice(-1)[0],
+        senderEmail: emailForm.elements['senderEmail'].value,
+        receiverEmail: emailForm.elements['receiverEmail'].value,
+    };
+
+    console.table(formData);
+
+    // after sending mail disabled send button
+    emailForm[2].setAttribute('disabled','true');
+
+    let response = await fetch(emailURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': "application/json",
+        },
+        body: JSON.stringify(formData),
+    });
+
+    let data = await response.json();
+    if(data.success)
+        sharingContainer.style.display = 'none';
+})

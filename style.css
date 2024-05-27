@@ -130,7 +130,7 @@ body, .drop-zone, .upload-container{
 .sharing-container{
     width: var(--container-width);
     margin-bottom: 20px;
-    /* display: none; */
+    display: none;
 }
 
 p.expire, p.email-title{

@@ -15,8 +15,8 @@ const emailForm = document.querySelector('#email-form');
 
 // SERVER port
 const PORT = 8000;
+
 // change host and upload url
-// const host = 'https://innshare.herokuapp.com/';
 const host = `http://localhost:${PORT}/`;
 const uploadURL = `${host}api/files`;
 const emailURL = `${host}api/files/send-email`;
@@ -59,6 +59,12 @@ clipBtn.addEventListener('click', () => {
 
 const uploadFile = () => {
 
+    // reset progress container
+    bgProgress.style = `width: 0%`;
+    percentDiv.innerText = 0;
+    progressBar.style.transform = `scaleX(0)`;
+
+    // show progress container
     progressContainer.style.display = 'block';
     const file = fileInput.files[0];
     if (!file) {
@@ -103,7 +109,10 @@ const onUploadSuccess = ({ file: url }) => {
     // set email btn able to send mail again 
     emailForm[2].removeAttribute('disabled');
 
+    // hide progress container
     progressContainer.style.display = 'none';
+
+    // show url of files
     fileURLInput.value = url;
     sharingContainer.style.display = 'block';
 }
@@ -118,8 +127,6 @@ emailForm.addEventListener('submit', async (e)=>{
         receiverEmail: emailForm.elements['receiverEmail'].value,
     };
 
-    console.table(formData);
-
     // after sending mail disabled send button
     emailForm[2].setAttribute('disabled','true');
 
@@ -130,8 +137,11 @@ emailForm.addEventListener('submit', async (e)=>{
         },
         body: JSON.stringify(formData),
     });
-
+    
     let data = await response.json();
-    if(data.success)
+    if(data.success){
         sharingContainer.style.display = 'none';
+        emailForm[0].value = '';
+        emailForm[1].value = '';
+    }
 })

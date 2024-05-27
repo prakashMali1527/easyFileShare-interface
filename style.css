@@ -126,3 +126,40 @@ body, .drop-zone, .upload-container{
     transform: scaleX(0);
     transition: transform .25s linear;
 }
+
+.sharing-container{
+    width: var(--container-width);
+    margin-bottom: 20px;
+    display: none;
+}
+
+p.expire{
+    text-align: center;
+    opacity: .7;
+
+}
+
+.sharing-container .input-container{
+    position: relative;
+}
+
+.sharing-container .input-container input{
+    width: var(--container-width);
+    border: 2px dashed var(--border-color);
+    border-radius: 7px;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    font-size: 20px;
+    background-color: #f5fcff;
+    color: #0000008c;
+}
+
+.input-container img{
+    position: absolute;
+    height: 22px;
+    width: 30px;
+    right: 7px;
+    top: 12px;
+    cursor: pointer;
+    background-color:  #f5fcff;
+}

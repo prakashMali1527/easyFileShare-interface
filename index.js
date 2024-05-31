@@ -17,7 +17,8 @@ const emailForm = document.querySelector('#email-form');
 const PORT = 8000;
 
 // change host and upload url
-const host = `http://localhost:${PORT}/`;
+const host = `https://easyfileshare-server.onrender.com/`;
+// const host = 'http://localhost:8000/';
 const uploadURL = `${host}api/files`;
 const emailURL = `${host}api/files/send-email`;
 

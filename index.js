@@ -13,6 +13,8 @@ const clipBtn = document.querySelector('#clip-btn');
 
 const emailForm = document.querySelector('#email-form');
 
+const notify = document.querySelector('.notify');
+
 // SERVER port
 const PORT = 8000;
 
@@ -54,8 +56,8 @@ clipBtn.addEventListener('click', () => {
     // Copy the URL to clipboard
     navigator.clipboard.writeText(fileURLInput.value);
 
-    // Alert the clipboard copy
-    alert("Successfully Copied URL to clipboard: " + fileURLInput.value);
+    // Nofify the clipboard copy
+    showNoty('Link copied!');
 });
 
 const uploadFile = () => {
@@ -84,6 +86,10 @@ const uploadFile = () => {
     }
 
     xhr.upload.onprogress = updateProgress;
+    xhr.upload.onerror = () => {
+        fileInput.value = "";
+        showNoty(`Error in upload: ${xhr.statusText}`);
+    }
 
     xhr.open('POST', uploadURL);
     xhr.send(formData);
@@ -144,5 +150,16 @@ emailForm.addEventListener('submit', async (e)=>{
         sharingContainer.style.display = 'none';
         emailForm[0].value = '';
         emailForm[1].value = '';
+        showNoty('Email sent!');
     }
 })
+
+const showNoty = (msg) =>{
+    notify.innerText = msg;
+    notify.style.transform = 'translateY(0)';
+
+    setTimeout(()=>{
+        notify.style.transform = 'translateY(-60px)';
+    },2000);
+}
+

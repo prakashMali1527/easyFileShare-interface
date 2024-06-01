@@ -17,6 +17,7 @@ const notify = document.querySelector('.notify');
 
 // SERVER port
 const PORT = 8000;
+const MAX_ALLOWED_FILE_SIZE = 100 * 1024 * 1024; // 100 MB
 
 // change host and upload url
 const host = `https://easyfileshare-server.onrender.com/`;
@@ -62,6 +63,20 @@ clipBtn.addEventListener('click', () => {
 
 const uploadFile = () => {
 
+    if(fileInput.files.length > 1){
+        fileInput.files = "";
+        showNoty('Only upload 1 file!');
+        return;
+    }
+
+    const file = fileInput.files[0];
+
+    if(file.size > MAX_ALLOWED_FILE_SIZE){
+        fileInput.files = "";
+        showNoty("Can't upload more than 100 MB");
+        return;
+    }
+
     // reset progress container
     bgProgress.style = `width: 0%`;
     percentDiv.innerText = 0;
@@ -69,11 +84,6 @@ const uploadFile = () => {
 
     // show progress container
     progressContainer.style.display = 'block';
-    const file = fileInput.files[0];
-    if (!file) {
-        console.log('Cannot upload empty file');
-        return;
-    }
 
     const formData = new FormData();
     formData.append("myfile", file);
@@ -162,4 +172,3 @@ const showNoty = (msg) =>{
         notify.style.transform = 'translateY(-60px)';
     },2000);
 }
-

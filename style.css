@@ -213,6 +213,7 @@ p.expire, p.email-title{
     border-radius: 5px;
     color: #607d8b;
     cursor: pointer;
+    margin-top: 7px;
 }
 
 .notify{
@@ -229,10 +230,24 @@ p.expire, p.email-title{
     transform: translateY(-60px);
 }
 
-.upload_bg{
-    background: url(./Images/upload_bg.svg) no-repeat center;
+.upload_vector{
+    background: url(./Images/undraw_upload.svg) no-repeat center;
     background-size: contain;
     height: 50vh;
     width: 50vw;
+}
+
+@media screen and (max-width: 900px){
+    :root{
+        --container-width: 320px;
+    }
+    .upload_vector{
+        display: none;
+    }
+    .email-container .field{
+        flex-direction: column;
+        width: 300px;
+    }
+
 }
 

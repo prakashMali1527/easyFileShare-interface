@@ -23,6 +23,13 @@ body{
     flex-direction: row;
 }
 
+.logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100px;
+}
+
 .upload-container{
     background-color: var(--upload-bg-color);
     border-radius: 25px;

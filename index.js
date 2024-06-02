@@ -14,6 +14,7 @@ const clipBtn = document.querySelector('#clip-btn');
 const emailForm = document.querySelector('#email-form');
 
 const notify = document.querySelector('.notify');
+const logo = document.querySelector('.logo');
 
 // SERVER port
 const PORT = 8000;
@@ -120,7 +121,7 @@ const updateProgress = (e) => {
 const onUploadSuccess = ({ file: url }) => {
     console.log(url);
 
-    // empty file once send successfully
+    // empty file, once send successfully
     fileInput.value = "";
 
     // set email btn able to send mail again 
@@ -132,6 +133,7 @@ const onUploadSuccess = ({ file: url }) => {
     // show url of files
     fileURLInput.value = url;
     sharingContainer.style.display = 'block';
+    logo.style.display = 'none';
 }
 
 emailForm.addEventListener('submit', async (e)=>{
@@ -158,6 +160,7 @@ emailForm.addEventListener('submit', async (e)=>{
     let data = await response.json();
     if(data.success){
         sharingContainer.style.display = 'none';
+        logo.style.display = 'block';
         emailForm[0].value = '';
         emailForm[1].value = '';
         showNoty('Email sent!');

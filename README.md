@@ -1,6 +1,8 @@
 # easyFileShare - App
 It is a file share Web application where you can upload any file less than 100 MB size and get a sharable link. Sharable link will take you to download page. Also it give option to send sharable link to gmail account directly from site.
 
+Visit this repo for the Backend part: [easyFileShare-server](https://github.com/prakashMali1527/easyFileShare-server)
+
 [Live Site](https://easyfileshare-byprakash.netlify.app/)
 
 ## Screens
